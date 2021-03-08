@@ -93,8 +93,8 @@
 
 	batteryIconView.image = [batteryIconView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
 	batteryChargerView.image = [batteryChargerView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-	[batteryIconView setTintColor:[[self bodyColor] colorWithAlphaComponent:1]];
-	[batteryChargerView setTintColor:[[self bodyColor] colorWithAlphaComponent:1]];
+	[batteryIconView setTintColor:[UIColor labelColor]];
+	[batteryChargerView setTintColor:[UIColor labelColor]];
 
 }
 
