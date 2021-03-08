@@ -10,9 +10,9 @@
 
 }
 
-- (void)setFillColor:(UIColor *)fillColor { // get color and lower the opacity of the battery icon fill color
+- (UIColor *)fillColor { // get color and lower the opacity of the battery icon fill color
 
-	%orig([fillColor colorWithAlphaComponent:0.25]);
+	return [%orig colorWithAlphaComponent:0.25];
 	
 }
 
@@ -30,10 +30,7 @@
 	else if (isCharging)
 		[batteryIconView setImage:[UIImage imageWithContentsOfFile:@"/Library/BatteryBuddy/happy.png"]];
 
-	batteryIconView.image = [batteryIconView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-	batteryChargerView.image = [batteryChargerView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-	[batteryIconView setTintColor:[[self fillColor] colorWithAlphaComponent:1]];
-	[batteryChargerView setTintColor:[[self fillColor] colorWithAlphaComponent:1]];
+	[self updateIconColor];
 
 	return orig;
 
@@ -47,6 +44,7 @@
 	else isCharging = NO;
 
 	[self refreshIcon];
+	[self updateIconColor];
 	
 	return orig;
 
@@ -78,17 +76,25 @@
 	}
 
 	// charger
-	if (!batteryChargerView) {
+	if (!batteryChargerView && isCharging) {
 		batteryChargerView = [[UIImageView alloc] initWithFrame:[self bounds]];
 		[batteryChargerView setContentMode:UIViewContentModeScaleAspectFill];
 		[batteryChargerView setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
 		[batteryChargerView setImage:[UIImage imageWithContentsOfFile:@"/Library/BatteryBuddy/charger.png"]];
-		[batteryChargerView setHidden:isCharging ? NO : YES];
 		if (![batteryChargerView isDescendantOfView:self]) [self addSubview:batteryChargerView];
 	}
 
-	[self fillColor];
 	[self chargePercent];
+
+}
+
+%new
+- (void)updateIconColor {
+
+	batteryIconView.image = [batteryIconView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+	batteryChargerView.image = [batteryChargerView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+	[batteryIconView setTintColor:[[self bodyColor] colorWithAlphaComponent:1]];
+	[batteryChargerView setTintColor:[[self bodyColor] colorWithAlphaComponent:1]];
 
 }
 
