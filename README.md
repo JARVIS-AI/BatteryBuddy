@@ -6,7 +6,10 @@ Battery Indicator, but cute
 2. Install BatteryBuddy
 
 ## Compiling
-  - No dependencies
+  - Objective-C:
+    - No dependencies
+  - Swift:
+    - Depends on Orion
   - You may want to edit the `Makefiles` to suit your theos installation
 
 ## Note
