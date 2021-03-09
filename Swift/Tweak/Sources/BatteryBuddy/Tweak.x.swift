@@ -7,6 +7,7 @@ var batteryChargerView:UIImageView = UIImageView()
 var LSBatteryIconView:UIImageView = UIImageView()
 var LSBatteryChargerView:UIImageView = UIImageView()
 var isCharging = Bool()
+var isLowPowerModeActive = Bool()
 
 class BatteryViewHook: ClassHook<UIView> {
     
@@ -106,9 +107,14 @@ class BatteryViewHook: ClassHook<UIView> {
     final func updateIconColor() {  // add lockscreen battery icons
         
         batteryIconView.image = batteryIconView.image?.withRenderingMode(.alwaysTemplate)
-        batteryIconView.tintColor = UIColor.label
         batteryChargerView.image = batteryChargerView.image?.withRenderingMode(.alwaysTemplate)
-        batteryChargerView.tintColor = UIColor.label
+        if !isLowPowerModeActive {
+            batteryIconView.tintColor = UIColor.label
+            batteryChargerView.tintColor = UIColor.label
+        } else {
+            batteryIconView.tintColor = UIColor.black
+            batteryChargerView.tintColor = UIColor.black
+        }
         
     }
     
@@ -135,7 +141,7 @@ class LockscreenBatteryViewHook: ClassHook<UIView> { // add lockscreen battery i
             LSBatteryIconView.image = UIImage(contentsOfFile:"/Library/BatteryBuddy/happyLS.png")
         }
         LSBatteryIconView.image = LSBatteryIconView.image?.withRenderingMode(.alwaysTemplate)
-        LSBatteryIconView.tintColor = batteryIconView.tintColor
+        LSBatteryIconView.tintColor = UIColor.white
         if !LSBatteryIconView.isDescendant(of:target.superview!) {
             target.superview!.addSubview(LSBatteryIconView)
         }
@@ -148,10 +154,22 @@ class LockscreenBatteryViewHook: ClassHook<UIView> { // add lockscreen battery i
             LSBatteryChargerView.image = UIImage(contentsOfFile:"/Library/BatteryBuddy/chargerLS.png")
         }
         LSBatteryIconView.image = LSBatteryIconView.image?.withRenderingMode(.alwaysTemplate)
-        LSBatteryIconView.tintColor = batteryIconView.tintColor
+        LSBatteryIconView.tintColor = UIColor.white
         if !LSBatteryIconView.isDescendant(of:target.superview!) {
             target.superview!.addSubview(LSBatteryIconView)
         }
+        
+    }
+    
+}
+
+class NSProcessInfoHook: ClassHook<NSObject> { // check if low power mode is active
+    
+    func isLowPowerModeEnabled() -> Bool {
+        
+        isLowPowerModeActive = orig.isLowPowerModeEnabled()
+        
+        return isLowPowerModeActive
         
     }
     

@@ -92,8 +92,13 @@
 
 	batteryIconView.image = [batteryIconView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
 	batteryChargerView.image = [batteryChargerView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-	[batteryIconView setTintColor:[UIColor labelColor]];
-	[batteryChargerView setTintColor:[UIColor labelColor]];
+	if (!isLowPowerModeActive) {
+		[batteryIconView setTintColor:[UIColor labelColor]];
+		[batteryChargerView setTintColor:[UIColor labelColor]];
+	} else {
+		[batteryIconView setTintColor:[UIColor blackColor]];
+		[batteryChargerView setTintColor:[UIColor blackColor]];
+	}
 
 }
 
@@ -115,7 +120,7 @@
 		[LSBatteryIconView setImage:[UIImage imageWithContentsOfFile:@"/Library/BatteryBuddy/happyLS.png"]];
 	}
 	LSBatteryIconView.image = [LSBatteryIconView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-	[LSBatteryIconView setTintColor:[batteryIconView tintColor]];
+	[LSBatteryIconView setTintColor:[UIColor whiteColor]];
 	if (![LSBatteryIconView isDescendantOfView:[self superview]]) [[self superview] addSubview:LSBatteryIconView];
 
 	// charger
@@ -126,8 +131,20 @@
 		[LSBatteryChargerView setImage:[UIImage imageWithContentsOfFile:@"/Library/BatteryBuddy/chargerLS.png"]];
 	}
 	LSBatteryChargerView.image = [LSBatteryChargerView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-	[LSBatteryChargerView setTintColor:[batteryIconView tintColor]];
+	[LSBatteryChargerView setTintColor:[UIColor whiteColor]];
 	if (![LSBatteryChargerView isDescendantOfView:[self superview]]) [[self superview] addSubview:LSBatteryChargerView];
+
+}
+
+%end
+
+%hook NSProcessInfo
+
+- (BOOL)isLowPowerModeEnabled { // check if low power mode is active
+
+	isLowPowerModeActive = %orig;
+
+	return isLowPowerModeActive;
 
 }
 

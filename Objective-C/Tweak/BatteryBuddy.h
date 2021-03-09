@@ -5,6 +5,7 @@ UIImageView* batteryChargerView;
 UIImageView* LSBatteryIconView;
 UIImageView* LSBatteryChargerView;
 BOOL isCharging = NO;
+BOOL isLowPowerModeActive = NO;
 
 @interface _UIBatteryView : UIView
 - (CGFloat)chargePercent;
