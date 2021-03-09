@@ -8,6 +8,7 @@ BOOL isCharging = NO;
 
 @interface _UIBatteryView : UIView
 - (CGFloat)chargePercent;
+- (long long)chargingState;
 - (void)refreshIcon;
 - (void)updateIconColor;
 @end

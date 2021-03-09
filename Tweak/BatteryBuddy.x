@@ -54,7 +54,7 @@
 
 	%orig;
 
-	[self refreshIcon];
+	[self chargingState];
 
 }
 
