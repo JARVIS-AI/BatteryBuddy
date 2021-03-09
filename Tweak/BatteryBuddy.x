@@ -44,13 +44,12 @@
 	else isCharging = NO;
 
 	[self refreshIcon];
-	[self updateIconColor];
 	
 	return orig;
 
 }
 
-- (void)_updateFillLayer { // add face & charger
+- (void)_updateFillLayer { // update the icon
 
 	%orig;
 
@@ -89,7 +88,7 @@
 }
 
 %new
-- (void)updateIconColor {
+- (void)updateIconColor { // update icon color
 
 	batteryIconView.image = [batteryIconView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
 	batteryChargerView.image = [batteryChargerView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
@@ -117,7 +116,7 @@
 	}
 	LSBatteryIconView.image = [LSBatteryIconView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
 	[LSBatteryIconView setTintColor:[batteryIconView tintColor]];
-	if (![LSBatteryIconView isDescendantOfView:self]) [[self superview] addSubview:LSBatteryIconView];
+	if (![LSBatteryIconView isDescendantOfView:[self superview]]) [[self superview] addSubview:LSBatteryIconView];
 
 	// charger
 	if (!LSBatteryChargerView) {
@@ -128,7 +127,7 @@
 	}
 	LSBatteryChargerView.image = [LSBatteryChargerView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
 	[LSBatteryChargerView setTintColor:[batteryIconView tintColor]];
-	if (![LSBatteryChargerView isDescendantOfView:self]) [[self superview] addSubview:LSBatteryChargerView];
+	if (![LSBatteryChargerView isDescendantOfView:[self superview]]) [[self superview] addSubview:LSBatteryChargerView];
 
 }
 
